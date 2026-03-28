@@ -2,58 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Christopher Bernardo Payroll Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Payroll Viewer</title>
   <style>
     :root{
       --lime:#7CFC00;
-      --panel:#171a21;
-      --panel-2:#1f2430;
-      --text:#f2f5f7;
-      --muted:#b8c0cc;
-      --border:#2c3444;
+      --lime2:#66dd00;
+      --bg:#0b0f14;
+      --card:#171e2a;
+      --card2:#101722;
+      --border:#293446;
+      --text:#f5f8fb;
+      --muted:#aab4c2;
+      --black:#071002;
     }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:Arial, Helvetica, sans-serif;background:linear-gradient(180deg,#0b0d12,#141923);color:var(--text)}
-    .wrap{max-width:1120px;margin:0 auto;padding:24px 16px 40px}
-    .card{background:rgba(23,26,33,.96);border:1px solid var(--border);border-radius:18px;box-shadow:0 15px 40px rgba(0,0,0,.35);overflow:hidden}
-    .hero{padding:24px;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(124,252,0,.12),rgba(124,252,0,.03))}
-    .eyebrow{color:var(--lime);font-weight:700;letter-spacing:.08em;font-size:.8rem}
-    h1{margin:8px 0 8px;font-size:2rem}
-    .sub{color:var(--muted);line-height:1.5}
-    .grid4{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:24px}
-    .lime-btn,.week-btn,.small-btn{appearance:none;border:none;cursor:pointer;border-radius:14px;background:linear-gradient(180deg,var(--lime),#66dd00);color:#081003;font-weight:800;box-shadow:0 8px 20px rgba(124,252,0,.25);transition:transform .12s ease, filter .12s ease}
-    .lime-btn:hover,.week-btn:hover,.small-btn:hover{transform:translateY(-1px);filter:brightness(1.02)}
-    .lime-btn{padding:22px 16px;font-size:1rem;min-height:90px}
-    .content{padding:0 24px 24px}
-    .panel{background:var(--panel-2);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:18px}
-    .hidden{display:none}
-    .weeks-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-    .week-btn{width:100%;padding:14px 12px;text-align:left;font-size:.95rem;min-height:78px}
-    .week-btn .main-date{display:block;font-size:1rem;font-weight:900;color:#041100}
-    .week-btn .range{display:block;font-size:.84rem;color:#fff;margin-top:5px;font-weight:700}
-    .muted{color:var(--muted)}
-    .stub-head{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-bottom:12px}
-    .company,.employee,.paybox{background:#11151d;border:1px solid var(--border);border-radius:14px;padding:14px;flex:1 1 260px}
-    .paybox .net{color:var(--lime);font-size:2rem;font-weight:800;margin-top:8px}
-    .section-title{margin:0 0 10px;font-size:1.05rem;color:var(--lime);font-weight:900;letter-spacing:.03em}
-    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.95rem}
-    th,td{border-bottom:1px solid #31384a;padding:10px 8px;text-align:left;vertical-align:top}
-    th{color:var(--lime);font-size:.85rem;text-transform:uppercase;letter-spacing:.04em}
-    .tot{font-weight:800}
-    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-    .small-btn{padding:12px 16px;font-size:.95rem}
-    .placeholder{line-height:1.7}
-    .tag{display:inline-block;background:#11151d;border:1px solid var(--border);padding:5px 9px;border-radius:999px;color:var(--muted);margin-right:8px;margin-top:6px}
-    .emptybox{padding:18px;border:1px dashed #40506d;border-radius:14px;background:#151a24;color:var(--muted)}
-    .print-stub{display:none;color:#000;background:#fff;padding:20px 24px;max-width:980px;margin:0 auto;font-family:Arial, Helvetica, sans-serif}
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    body{margin:0;font-family:Arial, Helvetica, sans-serif;background:linear-gradient(180deg,#090d12,#121925 45%,#0d121b);color:var(--text)}
+    .phone-shell{width:100%;max-width:430px;min-height:100dvh;margin:0 auto;background:linear-gradient(180deg,rgba(124,252,0,.08),transparent 24%), var(--bg);position:relative;overflow-x:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.03), 0 20px 60px rgba(0,0,0,.45)}
+    .topbar{position:sticky;top:0;z-index:20;background:rgba(11,15,20,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:14px 14px 12px}
+    .eyebrow{color:var(--lime);font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase}
+    .title{margin:6px 0 3px;font-size:24px;font-weight:900;line-height:1.08}
+    .subtitle{color:var(--muted);font-size:13px;line-height:1.35}
+    .screen{padding:14px 14px 34px}
+    .panel{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));border:1px solid var(--border);border-radius:22px;padding:14px;margin-bottom:14px;box-shadow:0 12px 26px rgba(0,0,0,.22)}
+    .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .menu-btn,.action-btn,.date-pill{border:none;border-radius:18px;cursor:pointer;font-weight:900;background:linear-gradient(180deg,var(--lime),var(--lime2));color:var(--black);box-shadow:0 10px 22px rgba(124,252,0,.22)}
+    .menu-btn{min-height:84px;padding:14px 12px;font-size:15px;text-align:left}
+    .menu-btn span{display:block;font-size:11px;font-weight:700;opacity:.72;margin-top:5px}
+    .section-title{margin:0 0 10px;color:var(--lime);font-size:14px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+    .profile-line,.kv-row,.tax-row,.earn-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+    .profile-line:last-child,.kv-row:last-child,.tax-row:last-child,.earn-row:last-child{border-bottom:none}
+    .label{color:var(--muted);font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+    .value{font-size:14px;font-weight:800;text-align:right}
+    .hidden{display:none !important}
+    .summary-card{background:linear-gradient(180deg,rgba(124,252,0,.09),rgba(124,252,0,.03));border:1px solid rgba(124,252,0,.22);border-radius:18px;padding:14px;margin-bottom:12px}
+    .summary-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+    .summary-title{font-size:15px;font-weight:900}
+    .summary-range{font-size:12px;color:var(--muted);margin-top:4px}
+    .summary-net{text-align:right}
+    .summary-net .label{font-size:11px}
+    .summary-net .big{font-size:28px;font-weight:900;color:var(--lime);line-height:1}
+    .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+    .mini-box{background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:11px}
+    .mini-box .k{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:800}
+    .mini-box .v{font-size:16px;font-weight:900;margin-top:4px}
+    .subcard{background:var(--card2);border:1px solid var(--border);border-radius:18px;padding:12px;margin-top:12px}
+    .subcard-title{font-size:13px;color:var(--lime);font-weight:900;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+    .row-left{display:flex;flex-direction:column;gap:3px}
+    .row-right{text-align:right}
+    .tiny{font-size:11px;color:var(--muted);font-weight:700}
+    .action-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .action-btn{flex:1;min-height:48px;padding:12px 14px;font-size:14px}
+    .action-btn.secondary{background:#151d29;color:var(--text);border:1px solid var(--border);box-shadow:none}
+    .notice{background:rgba(255,255,255,.03);border:1px dashed #41526d;color:var(--muted);padding:12px;border-radius:14px;font-size:13px;line-height:1.45}
+    .select-wrap{margin-top:10px}
+    .select-label{display:block;font-size:11px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    select{width:100%;border-radius:16px;border:1px solid var(--border);background:#131b27;color:var(--text);padding:14px 12px;font-size:15px;font-weight:800;outline:none}
+    .recent-note{margin-top:8px;font-size:12px;color:var(--muted)}
+    .quick-dates{display:grid;gap:10px;margin-top:12px}
+    .date-pill{width:100%;padding:14px 14px;text-align:left}
+    .date-pill .main{display:block;font-size:16px;font-weight:900;line-height:1.08;color:#061000}
+    .date-pill .sub{display:block;font-size:12px;color:#fff;font-weight:800;margin-top:5px}
+    .date-pill .amt{display:block;font-size:12px;color:#0f2a00;font-weight:900;margin-top:5px}
+    .print-stub{display:none;color:#000;background:#fff;padding:18px 22px;max-width:980px;margin:0 auto;font-family:Arial, Helvetica, sans-serif}
     .print-stub .top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px}
-    .print-stub .midline{margin:14px 0 12px;border:3px solid #111;padding:8px 10px;display:grid;grid-template-columns:1.3fr .9fr .9fr 1.2fr;gap:10px;align-items:end}
+    .print-stub .midline{margin:12px 0 10px;border:3px solid #111;padding:8px 10px;display:grid;grid-template-columns:1.3fr .9fr .9fr 1.2fr;gap:10px;align-items:end}
     .print-stub .big{font-size:18px;font-weight:900}
-    .print-stub .grid2{display:grid;grid-template-columns:1.2fr .95fr;gap:26px;margin-top:18px}
-    .print-stub table{font-size:14px;color:#000}
-    .print-stub th{color:#000;border-bottom:2px solid #111}
-    .print-stub td{border-bottom:1px solid #bbb}
+    .print-stub .grid2{display:grid;grid-template-columns:1.2fr .95fr;gap:26px;margin-top:14px}
+    .print-stub table{width:100%;border-collapse:collapse;font-size:13px;color:#000}
+    .print-stub th{text-align:left;color:#000;border-bottom:2px solid #111;padding:6px 4px}
+    .print-stub td{border-bottom:1px solid #bbb;padding:6px 4px}
     .print-note{margin-top:12px;font-size:13px;color:#222}
     @media print {
       body * {visibility:hidden !important;}
@@ -61,84 +79,91 @@
       #printStub {display:block !important; position:absolute; left:0; top:0; width:100%;}
       body {background:#fff;}
     }
-    @media (max-width:700px){
-      h1{font-size:1.5rem}
-      .grid4,.weeks-grid{grid-template-columns:1fr}
-      .wrap{padding:12px 10px 28px}
-      .hero,.grid4,.content{padding-left:16px;padding-right:16px}
-      .print-stub .midline, .print-stub .grid2{grid-template-columns:1fr}
-    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <div class="hero">
-        <div class="eyebrow">PAYROLL DASHBOARD</div>
-        <h1>Employee: Christopher Bernardo</h1>
-        <div class="sub">EMPLOYER: NEW HAVEN PIZZA TRUCK</div>
-      </div>
+  <div class="phone-shell">
+    <div class="topbar">
+      <div class="eyebrow">Payroll Dashboard</div>
+      <div class="title">Christopher Bernardo</div>
+      <div class="subtitle">Employer: New Haven Pizza Truck</div>
+    </div>
 
-      <div class="grid4">
-        <button class="lime-btn" onclick="showSection('pay')">MY PAY</button>
-        <button class="lime-btn" onclick="showSection('taxes')">TAXES</button>
-        <button class="lime-btn" onclick="showSection('retirement')">RETIREMENT</button>
-        <button class="lime-btn" onclick="showSection('profile')">PROFILE</button>
-      </div>
-
-      <div class="content">
-        <section id="profileSection" class="panel">
-          <div class="section-title">PROFILE</div>
-          <div class="placeholder">
-            <div><span class="tag">Employee #22</span><span class="tag">West Haven, CT</span><span class="tag">Voucher series: weekly payroll</span></div>
-            <p><strong>Employee:</strong> Christopher Bernardo</p>
-            <p><strong>Employer:</strong> New Haven Pizza Truck</p>
-            <p><strong>Address on file:</strong> 118 Peck Ave, West Haven, CT 06516</p>
-            <p><strong>Payroll view:</strong> Weekly pay estimates with earnings, taxes, net pay, and year-to-date totals.</p>
+    <div class="screen">
+      <section id="homeSection">
+        <div class="panel">
+          <div class="menu-grid">
+            <button class="menu-btn" onclick="showSection('pay')">MY PAY<span>Weekly pay history</span></button>
+            <button class="menu-btn" onclick="showSection('taxes')">TAXES<span>Current + YTD totals</span></button>
+            <button class="menu-btn" onclick="showSection('retirement')">RETIREMENT<span>Enrollment status</span></button>
+            <button class="menu-btn" onclick="showSection('profile')">PROFILE<span>Employee details</span></button>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="paySection" class="panel hidden">
-          <div id="weeksView">
-            <div class="section-title">MY PAY</div>
-            <div class="weeks-grid" id="weeksGrid"></div>
+      <section id="profileSection" class="panel hidden">
+        <div class="section-title">Profile</div>
+        <div class="profile-line"><div class="row-left"><div class="label">Employee</div><div>Christopher Bernardo</div></div><div class="row-right"><div class="tiny">Employee #22</div></div></div>
+        <div class="profile-line"><div class="row-left"><div class="label">Employer</div><div>New Haven Pizza Truck</div></div></div>
+        <div class="profile-line"><div class="row-left"><div class="label">Address on File</div><div>118 Peck Ave<br>West Haven, CT 06516</div></div></div>
+        <div class="profile-line"><div class="row-left"><div class="label">Payroll View</div><div>Weekly pay estimates with net pay, tax details, and YTD totals.</div></div></div>
+        <div class="action-row"><button class="action-btn secondary" onclick="goHome()">Back Home</button></div>
+      </section>
+
+      <section id="taxesSection" class="panel hidden">
+        <div class="section-title">Taxes</div>
+        <div class="notice">Open any week in MY PAY to see the exact current and year-to-date values for Federal Withholding, Employee Social Security, Employee Medicare, CT Withholding, and CT Paid Family Leave EE.</div>
+        <div class="action-row"><button class="action-btn secondary" onclick="goHome()">Back Home</button></div>
+      </section>
+
+      <section id="retirementSection" class="panel hidden">
+        <div class="section-title">Retirement</div>
+        <div class="notice">
+          <strong>Current status:</strong> Currently not enrolled in any retirement programs.<br><br>
+          If you would like to ask about eligibility, enrollment windows, payroll deductions, or available plan options, please contact a supervisor or payroll representative for current details and enrollment paperwork.
+        </div>
+        <div class="action-row"><button class="action-btn secondary" onclick="goHome()">Back Home</button></div>
+      </section>
+
+      <section id="paySection" class="hidden">
+        <div id="weeksView" class="panel">
+          <div class="section-title">My Pay</div>
+<div class="action-row" style="margin-top:0;margin-bottom:10px;">
+  <button class="action-btn secondary" onclick="goHome()" style="min-height:36px;padding:8px 10px;font-size:12px;">Back Home</button>
+</div>
+
+          <div class="select-wrap">
+            <label class="select-label" for="paySelect">Select Pay Date</label>
+            <select id="paySelect" onchange="selectPayDate(this.value)">
+              <option value="">Choose a pay date...</option>
+            </select>
           </div>
-          <div id="stubView" class="hidden">
-            <div class="actions" style="margin-top:0;margin-bottom:12px;">
-              <button class="small-btn" onclick="backToWeeks()">Back to Weeks</button>
+          <div class="recent-note">Most recent pay dates appear first.</div>
+          <div class="quick-dates" id="quickDates"></div>
+          <div class="action-row"><button class="action-btn secondary" onclick="goHome()">Back Home</button></div>
+        </div>
+
+        <div id="stubView" class="hidden">
+          <div class="panel">
+            <div class="action-row" style="margin-top:0;margin-bottom:12px;">
+              <button class="action-btn secondary" onclick="goHome()" style="min-height:36px;padding:8px 10px;font-size:12px;">Back Home</button>
+              <button class="action-btn secondary" onclick="backToSelect()" style="min-height:36px;padding:8px 10px;font-size:12px;">Back to Dates</button>
             </div>
             <div id="stubContainer"></div>
-            <div class="actions">
-              <button class="small-btn" onclick="backToWeeks()">Back to Weeks</button>
+            <div class="action-row">
+              <button class="action-btn secondary" onclick="backToSelect()">Back to Dates</button>
+              <button class="action-btn" id="printBtn">Print to View Full Stub</button>
             </div>
           </div>
-        </section>
-
-        <section id="taxesSection" class="panel hidden">
-          <div class="section-title">TAXES</div>
-          <div class="placeholder">
-            <p>This section mirrors the payroll estimate tax categories shown on each weekly paystub:</p>
-            <div><span class="tag">Federal Withholding</span><span class="tag">Employee Social Security</span><span class="tag">Employee Medicare</span><span class="tag">CT Withholding</span><span class="tag">CT Paid Family Leave EE</span></div>
-            <p class="muted">Open any pay week in MY PAY to view exact current and YTD totals.</p>
-          </div>
-        </section>
-
-        <section id="retirementSection" class="panel hidden">
-          <div class="section-title">RETIREMENT</div>
-          <div class="placeholder">
-            <p><strong>Current status:</strong> Currently not enrolled in any retirement programs.</p>
-            <p>If you would like to ask about eligibility, enrollment windows, payroll deductions, or available plan options, please contact a supervisor or payroll representative for current details and enrollment paperwork.</p>
-            <p class="muted">This portal does not currently show any active retirement deductions or employer retirement contributions.</p>
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   </div>
 
   <div id="printStub" class="print-stub"></div>
 
   <script>
-    const payrollData = [{"status": "actual", "payDate": "2026-01-09", "periodBegin": "2026-01-01", "periodEnd": "2026-01-04", "regHours": 40.0, "otHours": 3.0, "ytdRegHours": 40.0, "ytdOtHours": 3.0, "totalHours": 43.0, "ytdTotalHours": 43.0, "regPay": 1000.0, "otPay": 112.5, "tips": 738.0, "gross": 1850.5, "fed": 238.48, "ss": 114.73, "med": 26.84, "ct": 91.72, "pfml": 9.25, "taxes": 481.02, "net": 1369.48, "ytdRegPay": 1000.0, "ytdOtPay": 112.5, "ytdTips": 738.0, "ytdGross": 1850.5, "ytdFed": 238.48, "ytdSs": 114.73, "ytdMed": 26.84, "ytdCt": 91.72, "ytdPfml": 9.25, "ytdTaxes": 481.02, "ytdNet": 1369.48}, {"status": "actual", "payDate": "2026-01-16", "periodBegin": "2026-01-05", "periodEnd": "2026-01-11", "regHours": 40.0, "otHours": 2.25, "ytdRegHours": 80.0, "ytdOtHours": 5.25, "totalHours": 42.25, "ytdTotalHours": 85.25, "regPay": 1000.0, "otPay": 84.38, "tips": 740.44, "gross": 1824.82, "fed": 235.17, "ss": 113.14, "med": 26.47, "ct": 90.45, "pfml": 9.12, "taxes": 474.35, "net": 1350.47, "ytdRegPay": 2000.0, "ytdOtPay": 196.88, "ytdTips": 1478.44, "ytdGross": 3675.32, "ytdFed": 473.65, "ytdSs": 227.87, "ytdMed": 53.31, "ytdCt": 182.17, "ytdPfml": 18.37, "ytdTaxes": 955.37, "ytdNet": 2719.95}, {"status": "actual", "payDate": "2026-01-23", "periodBegin": "2026-01-12", "periodEnd": "2026-01-18", "regHours": 40.0, "otHours": 0.25, "ytdRegHours": 120.0, "ytdOtHours": 5.5, "totalHours": 40.25, "ytdTotalHours": 125.5, "regPay": 1000.0, "otPay": 9.38, "tips": 764.66, "gross": 1774.04, "fed": 228.63, "ss": 109.99, "med": 25.73, "ct": 87.93, "pfml": 8.87, "taxes": 461.15, "net": 1312.89, "ytdRegPay": 3000.0, "ytdOtPay": 206.26, "ytdTips": 2243.1, "ytdGross": 5449.36, "ytdFed": 702.28, "ytdSs": 337.86, "ytdMed": 79.04, "ytdCt": 270.1, "ytdPfml": 27.24, "ytdTaxes": 1416.52, "ytdNet": 4032.84}, {"status": "actual", "payDate": "2026-01-30", "periodBegin": "2026-01-19", "periodEnd": "2026-01-25", "regHours": 40.0, "otHours": 3.0, "ytdRegHours": 160.0, "ytdOtHours": 8.5, "totalHours": 43.0, "ytdTotalHours": 168.5, "regPay": 1000.0, "otPay": 112.5, "tips": 804.21, "gross": 1916.71, "fed": 247.02, "ss": 118.84, "med": 27.8, "ct": 95.0, "pfml": 9.58, "taxes": 498.24, "net": 1418.47, "ytdRegPay": 4000.0, "ytdOtPay": 318.76, "ytdTips": 3047.31, "ytdGross": 7366.07, "ytdFed": 949.3, "ytdSs": 456.7, "ytdMed": 106.84, "ytdCt": 365.1, "ytdPfml": 36.82, "ytdTaxes": 1914.76, "ytdNet": 5451.31}, {"status": "actual", "payDate": "2026-02-06", "periodBegin": "2026-01-26", "periodEnd": "2026-02-01", "regHours": 40.0, "otHours": 2.75, "ytdRegHours": 200.0, "ytdOtHours": 11.25, "totalHours": 42.75, "ytdTotalHours": 211.25, "regPay": 1000.0, "otPay": 103.13, "tips": 799.43, "gross": 1902.56, "fed": 245.19, "ss": 117.96, "med": 27.59, "ct": 94.3, "pfml": 9.51, "taxes": 494.55, "net": 1408.01, "ytdRegPay": 5000.0, "ytdOtPay": 421.89, "ytdTips": 3846.74, "ytdGross": 9268.63, "ytdFed": 1194.49, "ytdSs": 574.66, "ytdMed": 134.43, "ytdCt": 459.4, "ytdPfml": 46.33, "ytdTaxes": 2409.31, "ytdNet": 6859.32}, {"status": "actual", "payDate": "2026-02-13", "periodBegin": "2026-02-02", "periodEnd": "2026-02-08", "regHours": 40.0, "otHours": 2.75, "ytdRegHours": 240.0, "ytdOtHours": 14.0, "totalHours": 42.75, "ytdTotalHours": 254.0, "regPay": 1000.0, "otPay": 103.13, "tips": 778.68, "gross": 1881.81, "fed": 242.52, "ss": 116.67, "med": 27.29, "ct": 93.27, "pfml": 9.41, "taxes": 489.16, "net": 1392.65, "ytdRegPay": 6000.0, "ytdOtPay": 525.02, "ytdTips": 4625.42, "ytdGross": 11150.44, "ytdFed": 1437.01, "ytdSs": 691.33, "ytdMed": 161.72, "ytdCt": 552.67, "ytdPfml": 55.74, "ytdTaxes": 2898.47, "ytdNet": 8251.97}, {"status": "actual", "payDate": "2026-02-20", "periodBegin": "2026-02-09", "periodEnd": "2026-02-15", "regHours": 40.0, "otHours": 3.25, "ytdRegHours": 280.0, "ytdOtHours": 17.25, "totalHours": 43.25, "ytdTotalHours": 297.25, "regPay": 1000.0, "otPay": 121.88, "tips": 759.27, "gross": 1881.15, "fed": 242.43, "ss": 116.63, "med": 27.28, "ct": 93.24, "pfml": 9.41, "taxes": 488.99, "net": 1392.16, "ytdRegPay": 7000.0, "ytdOtPay": 646.9, "ytdTips": 5384.69, "ytdGross": 13031.59, "ytdFed": 1679.44, "ytdSs": 807.96, "ytdMed": 189.0, "ytdCt": 645.91, "ytdPfml": 65.15, "ytdTaxes": 3387.46, "ytdNet": 9644.13}, {"status": "actual", "payDate": "2026-02-27", "periodBegin": "2026-02-16", "periodEnd": "2026-02-22", "regHours": 40.0, "otHours": 2.5, "ytdRegHours": 320.0, "ytdOtHours": 19.75, "totalHours": 42.5, "ytdTotalHours": 339.75, "regPay": 1000.0, "otPay": 93.75, "tips": 808.61, "gross": 1902.36, "fed": 245.17, "ss": 117.95, "med": 27.59, "ct": 94.29, "pfml": 9.51, "taxes": 494.51, "net": 1407.85, "ytdRegPay": 8000.0, "ytdOtPay": 740.65, "ytdTips": 6193.3, "ytdGross": 14933.95, "ytdFed": 1924.61, "ytdSs": 925.91, "ytdMed": 216.59, "ytdCt": 740.2, "ytdPfml": 74.66, "ytdTaxes": 3881.97, "ytdNet": 11051.98}, {"status": "actual", "payDate": "2026-03-06", "periodBegin": "2026-02-23", "periodEnd": "2026-03-01", "regHours": 40.0, "otHours": 1.5, "ytdRegHours": 360.0, "ytdOtHours": 21.25, "totalHours": 41.5, "ytdTotalHours": 381.25, "regPay": 1000.0, "otPay": 56.25, "tips": 794.91, "gross": 1851.16, "fed": 238.57, "ss": 114.77, "med": 26.85, "ct": 91.75, "pfml": 9.26, "taxes": 481.2, "net": 1369.96, "ytdRegPay": 9000.0, "ytdOtPay": 796.9, "ytdTips": 6988.21, "ytdGross": 16785.11, "ytdFed": 2163.18, "ytdSs": 1040.68, "ytdMed": 243.44, "ytdCt": 831.95, "ytdPfml": 83.92, "ytdTaxes": 4363.17, "ytdNet": 12421.94}, {"status": "actual", "payDate": "2026-03-13", "periodBegin": "2026-03-02", "periodEnd": "2026-03-08", "regHours": 40.0, "otHours": 1.0, "ytdRegHours": 400.0, "ytdOtHours": 22.25, "totalHours": 41.0, "ytdTotalHours": 422.25, "regPay": 1000.0, "otPay": 37.5, "tips": 750.46, "gross": 1787.96, "fed": 230.42, "ss": 110.85, "med": 25.93, "ct": 88.62, "pfml": 8.94, "taxes": 464.76, "net": 1323.2, "ytdRegPay": 10000.0, "ytdOtPay": 834.4, "ytdTips": 7738.67, "ytdGross": 18573.07, "ytdFed": 2393.6, "ytdSs": 1151.53, "ytdMed": 269.37, "ytdCt": 920.57, "ytdPfml": 92.86, "ytdTaxes": 4827.93, "ytdNet": 13745.14}, {"status": "actual", "payDate": "2026-03-20", "periodBegin": "2026-03-09", "periodEnd": "2026-03-15", "regHours": 40.0, "otHours": 2.0, "ytdRegHours": 440.0, "ytdOtHours": 24.25, "totalHours": 42.0, "ytdTotalHours": 464.25, "regPay": 1000.0, "otPay": 75.0, "tips": 834.93, "gross": 1909.93, "fed": 246.14, "ss": 118.42, "med": 27.7, "ct": 94.67, "pfml": 9.55, "taxes": 496.48, "net": 1413.45, "ytdRegPay": 11000.0, "ytdOtPay": 909.4, "ytdTips": 8573.6, "ytdGross": 20483.0, "ytdFed": 2639.74, "ytdSs": 1269.95, "ytdMed": 297.07, "ytdCt": 1015.24, "ytdPfml": 102.41, "ytdTaxes": 5324.41, "ytdNet": 15158.59}, {"status": "actual", "payDate": "2026-03-27", "periodBegin": "2026-03-16", "periodEnd": "2026-03-22", "regHours": 40.0, "otHours": 0.25, "ytdRegHours": 480.0, "ytdOtHours": 24.5, "totalHours": 40.25, "ytdTotalHours": 504.5, "regPay": 1000.0, "otPay": 9.38, "tips": 753.77, "gross": 1763.15, "fed": 227.23, "ss": 109.32, "med": 25.57, "ct": 87.39, "pfml": 8.82, "taxes": 458.33, "net": 1304.82, "ytdRegPay": 12000.0, "ytdOtPay": 918.78, "ytdTips": 9327.37, "ytdGross": 22246.15, "ytdFed": 2866.97, "ytdSs": 1379.27, "ytdMed": 322.64, "ytdCt": 1102.63, "ytdPfml": 111.23, "ytdTaxes": 5782.74, "ytdNet": 16463.41}];
+    const payrollData = [{"payDate": "2026-03-27", "periodBegin": "2026-03-16", "periodEnd": "2026-03-22", "regHours": 40.0, "otHours": 2.0, "ytdRegHours": 478.25, "ytdOtHours": 20.5, "totalHours": 42.0, "ytdTotalHours": 498.75, "regPay": 1000.0, "otPay": 75.0, "tips": 834.93, "gross": 1909.93, "fed": 246.14, "ss": 118.42, "med": 27.7, "ct": 94.67, "pfml": 9.55, "taxes": 496.48, "net": 1413.45, "ytdRegPay": 11956.25, "ytdOtPay": 768.76, "ytdTips": 9485.01, "ytdGross": 22210.02, "ytdFed": 2862.32, "ytdSs": 1377.02, "ytdMed": 322.11, "ytdCt": 1100.83, "ytdPfml": 111.06, "ytdTaxes": 5773.34, "ytdNet": 16436.68}, {"payDate": "2026-03-20", "periodBegin": "2026-03-09", "periodEnd": "2026-03-15", "regHours": 40.0, "otHours": 1.0, "ytdRegHours": 438.25, "ytdOtHours": 18.5, "totalHours": 41.0, "ytdTotalHours": 456.75, "regPay": 1000.0, "otPay": 37.5, "tips": 750.46, "gross": 1787.96, "fed": 230.42, "ss": 110.85, "med": 25.93, "ct": 88.62, "pfml": 8.94, "taxes": 464.76, "net": 1323.2, "ytdRegPay": 10956.25, "ytdOtPay": 693.76, "ytdTips": 8650.08, "ytdGross": 20300.09, "ytdFed": 2616.18, "ytdSs": 1258.6, "ytdMed": 294.41, "ytdCt": 1006.16, "ytdPfml": 101.51, "ytdTaxes": 5276.86, "ytdNet": 15023.23}, {"payDate": "2026-03-13", "periodBegin": "2026-03-02", "periodEnd": "2026-03-08", "regHours": 40.0, "otHours": 1.5, "ytdRegHours": 398.25, "ytdOtHours": 17.5, "totalHours": 41.5, "ytdTotalHours": 415.75, "regPay": 1000.0, "otPay": 56.25, "tips": 794.91, "gross": 1851.16, "fed": 238.57, "ss": 114.77, "med": 26.85, "ct": 91.75, "pfml": 9.26, "taxes": 481.2, "net": 1369.96, "ytdRegPay": 9956.25, "ytdOtPay": 656.26, "ytdTips": 7899.62, "ytdGross": 18512.13, "ytdFed": 2385.76, "ytdSs": 1147.75, "ytdMed": 268.48, "ytdCt": 917.54, "ytdPfml": 92.57, "ytdTaxes": 4812.1, "ytdNet": 13700.03}, {"payDate": "2026-03-06", "periodBegin": "2026-02-23", "periodEnd": "2026-03-01", "regHours": 40.0, "otHours": 2.5, "ytdRegHours": 358.25, "ytdOtHours": 16.0, "totalHours": 42.5, "ytdTotalHours": 374.25, "regPay": 1000.0, "otPay": 93.75, "tips": 808.61, "gross": 1902.36, "fed": 245.17, "ss": 117.95, "med": 27.59, "ct": 94.29, "pfml": 9.51, "taxes": 494.51, "net": 1407.85, "ytdRegPay": 8956.25, "ytdOtPay": 600.01, "ytdTips": 7104.71, "ytdGross": 16660.97, "ytdFed": 2147.19, "ytdSs": 1032.98, "ytdMed": 241.63, "ytdCt": 825.79, "ytdPfml": 83.31, "ytdTaxes": 4330.9, "ytdNet": 12330.07}, {"payDate": "2026-02-27", "periodBegin": "2026-02-16", "periodEnd": "2026-02-22", "regHours": 40.0, "otHours": 3.25, "ytdRegHours": 318.25, "ytdOtHours": 13.5, "totalHours": 43.25, "ytdTotalHours": 331.75, "regPay": 1000.0, "otPay": 121.88, "tips": 759.27, "gross": 1881.15, "fed": 242.43, "ss": 116.63, "med": 27.28, "ct": 93.24, "pfml": 9.41, "taxes": 488.99, "net": 1392.16, "ytdRegPay": 7956.25, "ytdOtPay": 506.26, "ytdTips": 6296.1, "ytdGross": 14758.61, "ytdFed": 1902.02, "ytdSs": 915.03, "ytdMed": 214.04, "ytdCt": 731.5, "ytdPfml": 73.8, "ytdTaxes": 3836.39, "ytdNet": 10922.22}, {"payDate": "2026-02-20", "periodBegin": "2026-02-09", "periodEnd": "2026-02-15", "regHours": 40.0, "otHours": 2.0, "ytdRegHours": 278.25, "ytdOtHours": 10.25, "totalHours": 42.0, "ytdTotalHours": 288.5, "regPay": 1000.0, "otPay": 75.0, "tips": 758.38, "gross": 1833.38, "fed": 236.28, "ss": 113.67, "med": 26.59, "ct": 90.87, "pfml": 9.17, "taxes": 476.58, "net": 1356.8, "ytdRegPay": 6956.25, "ytdOtPay": 384.38, "ytdTips": 5536.83, "ytdGross": 12877.46, "ytdFed": 1659.59, "ytdSs": 798.4, "ytdMed": 186.76, "ytdCt": 638.26, "ytdPfml": 64.39, "ytdTaxes": 3347.4, "ytdNet": 9530.06}, {"payDate": "2026-02-13", "periodBegin": "2026-02-02", "periodEnd": "2026-02-08", "regHours": 40.0, "otHours": 2.75, "ytdRegHours": 238.25, "ytdOtHours": 8.25, "totalHours": 42.75, "ytdTotalHours": 246.5, "regPay": 1000.0, "otPay": 103.13, "tips": 744.42, "gross": 1847.55, "fed": 238.1, "ss": 114.55, "med": 26.79, "ct": 91.57, "pfml": 9.24, "taxes": 480.25, "net": 1367.3, "ytdRegPay": 5956.25, "ytdOtPay": 309.38, "ytdTips": 4778.45, "ytdGross": 11044.08, "ytdFed": 1423.31, "ytdSs": 684.73, "ytdMed": 160.17, "ytdCt": 547.39, "ytdPfml": 55.22, "ytdTaxes": 2870.82, "ytdNet": 8173.26}, {"payDate": "2026-02-06", "periodBegin": "2026-01-26", "periodEnd": "2026-02-01", "regHours": 40.0, "otHours": 3.0, "ytdRegHours": 198.25, "ytdOtHours": 5.5, "totalHours": 43.0, "ytdTotalHours": 203.75, "regPay": 1000.0, "otPay": 112.5, "tips": 783.34, "gross": 1895.84, "fed": 244.33, "ss": 117.54, "med": 27.5, "ct": 93.97, "pfml": 9.48, "taxes": 492.82, "net": 1403.02, "ytdRegPay": 4956.25, "ytdOtPay": 206.25, "ytdTips": 4034.03, "ytdGross": 9196.53, "ytdFed": 1185.21, "ytdSs": 570.18, "ytdMed": 133.38, "ytdCt": 455.82, "ytdPfml": 45.98, "ytdTaxes": 2390.57, "ytdNet": 6805.96}, {"payDate": "2026-01-30", "periodBegin": "2026-01-19", "periodEnd": "2026-01-25", "regHours": 40.0, "otHours": 1.5, "ytdRegHours": 158.25, "ytdOtHours": 2.5, "totalHours": 41.5, "ytdTotalHours": 160.75, "regPay": 1000.0, "otPay": 56.25, "tips": 828.84, "gross": 1885.09, "fed": 242.94, "ss": 116.88, "med": 27.34, "ct": 93.43, "pfml": 9.43, "taxes": 490.02, "net": 1395.07, "ytdRegPay": 3956.25, "ytdOtPay": 93.75, "ytdTips": 3250.69, "ytdGross": 7300.69, "ytdFed": 940.88, "ytdSs": 452.64, "ytdMed": 105.88, "ytdCt": 361.85, "ytdPfml": 36.5, "ytdTaxes": 1897.75, "ytdNet": 5402.94}, {"payDate": "2026-01-23", "periodBegin": "2026-01-12", "periodEnd": "2026-01-18", "regHours": 40.0, "otHours": 0.5, "ytdRegHours": 118.25, "ytdOtHours": 1.0, "totalHours": 40.5, "ytdTotalHours": 119.25, "regPay": 1000.0, "otPay": 18.75, "tips": 799.53, "gross": 1818.28, "fed": 234.33, "ss": 112.73, "med": 26.37, "ct": 90.12, "pfml": 9.09, "taxes": 472.64, "net": 1345.64, "ytdRegPay": 2956.25, "ytdOtPay": 37.5, "ytdTips": 2421.85, "ytdGross": 5415.6, "ytdFed": 697.94, "ytdSs": 335.76, "ytdMed": 78.54, "ytdCt": 268.42, "ytdPfml": 27.07, "ytdTaxes": 1407.73, "ytdNet": 4007.87}, {"payDate": "2026-01-16", "periodBegin": "2026-01-05", "periodEnd": "2026-01-11", "regHours": 40.0, "otHours": 0.5, "ytdRegHours": 78.25, "ytdOtHours": 0.5, "totalHours": 40.5, "ytdTotalHours": 78.75, "regPay": 1000.0, "otPay": 18.75, "tips": 787.78, "gross": 1806.53, "fed": 232.82, "ss": 112.0, "med": 26.2, "ct": 89.54, "pfml": 9.03, "taxes": 469.59, "net": 1336.94, "ytdRegPay": 1956.25, "ytdOtPay": 18.75, "ytdTips": 1622.32, "ytdGross": 3597.32, "ytdFed": 463.61, "ytdSs": 223.03, "ytdMed": 52.17, "ytdCt": 178.3, "ytdPfml": 17.98, "ytdTaxes": 935.09, "ytdNet": 2662.23}, {"payDate": "2026-01-09", "periodBegin": "2026-01-01", "periodEnd": "2026-01-04", "regHours": 38.25, "otHours": 0.0, "ytdRegHours": 38.25, "ytdOtHours": 0.0, "totalHours": 38.25, "ytdTotalHours": 38.25, "regPay": 956.25, "otPay": 0.0, "tips": 834.54, "gross": 1790.79, "fed": 230.79, "ss": 111.03, "med": 25.97, "ct": 88.76, "pfml": 8.95, "taxes": 465.5, "net": 1325.29, "ytdRegPay": 956.25, "ytdOtPay": 0.0, "ytdTips": 834.54, "ytdGross": 1790.79, "ytdFed": 230.79, "ytdSs": 111.03, "ytdMed": 25.97, "ytdCt": 88.76, "ytdPfml": 8.95, "ytdTaxes": 465.5, "ytdNet": 1325.29}];
 
     function money(v){
       return new Intl.NumberFormat('en-US', {style:'currency', currency:'USD'}).format(v);
@@ -153,32 +178,63 @@
     }
     function num(v){ return Number(v).toFixed(2); }
 
-    function showSection(which){
+    function hideAll(){
+      document.getElementById('homeSection').classList.add('hidden');
       document.getElementById('profileSection').classList.add('hidden');
-      document.getElementById('paySection').classList.add('hidden');
       document.getElementById('taxesSection').classList.add('hidden');
       document.getElementById('retirementSection').classList.add('hidden');
-      if(which === 'profile') document.getElementById('profileSection').classList.remove('hidden');
-      if(which === 'pay') document.getElementById('paySection').classList.remove('hidden');
-      if(which === 'taxes') document.getElementById('taxesSection').classList.remove('hidden');
-      if(which === 'retirement') document.getElementById('retirementSection').classList.remove('hidden');
+      document.getElementById('paySection').classList.add('hidden');
     }
 
-    function renderWeekButtons(){
-      const grid = document.getElementById('weeksGrid');
-      grid.innerHTML = payrollData.map((row, idx) => `
-        <button class="week-btn" onclick="renderStub(${idx})">
-          <span class="main-date">${fmtLongDate(row.payDate)}</span>
-          <span class="range">${fmtDate(row.periodBegin)} - ${fmtDate(row.periodEnd)}</span>
+    function goHome(){
+      hideAll();
+      document.getElementById('homeSection').classList.remove('hidden');
+      backToSelect(false);
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function showSection(which){
+      hideAll();
+      if(which === 'profile') document.getElementById('profileSection').classList.remove('hidden');
+      if(which === 'taxes') document.getElementById('taxesSection').classList.remove('hidden');
+      if(which === 'retirement') document.getElementById('retirementSection').classList.remove('hidden');
+      if(which === 'pay') {
+        document.getElementById('paySection').classList.remove('hidden');
+        backToSelect(false);
+      }
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function renderDateControls(){
+      const select = document.getElementById('paySelect');
+      select.innerHTML = '<option value="">Choose a pay date...</option>' + payrollData.map((row, idx) =>
+        `<option value="${idx}">${fmtLongDate(row.payDate)} — ${money(row.net)}</option>`
+      ).join('');
+
+      const quick = document.getElementById('quickDates');
+      quick.innerHTML = payrollData.map((row, idx) => `
+        <button class="date-pill" onclick="renderStub(${idx})">
+          <span class="main">${fmtLongDate(row.payDate)}</span>
+          <span class="sub">${fmtDate(row.periodBegin)} - ${fmtDate(row.periodEnd)}</span>
+          <span class="amt">Net Pay: ${money(row.net)}</span>
         </button>
       `).join('');
     }
 
-    function backToWeeks(){
+    function backToSelect(scroll = true){
       document.getElementById('weeksView').classList.remove('hidden');
       document.getElementById('stubView').classList.add('hidden');
       document.getElementById('stubContainer').innerHTML = '';
-      window.scrollTo({top:0, behavior:'smooth'});
+      document.getElementById('paySelect').value = '';
+      if(scroll) window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function selectPayDate(val){
+      if(val === '') {
+        backToSelect();
+        return;
+      }
+      renderStub(Number(val));
     }
 
     function renderStub(idx){
@@ -188,80 +244,59 @@
       document.getElementById('stubView').classList.remove('hidden');
 
       target.innerHTML = `
-        <div class="panel" style="margin-bottom:0;">
-          <div class="stub-head">
-            <div class="company">
-              <strong>NEW HAVEN PIZZA TRUCK</strong><br>
-              86 B Bleonardo Drive<br>
-              North Haven, CT 06473
+        <div class="summary-card">
+          <div class="summary-top">
+            <div>
+              <div class="summary-title">${fmtLongDate(row.payDate)}</div>
+              <div class="summary-range">${fmtDate(row.periodBegin)} - ${fmtDate(row.periodEnd)}</div>
             </div>
-            <div class="employee">
-              <strong>Christopher Bernardo</strong><br>
-              118 Peck Ave<br>
-              West Haven, CT 06516
-            </div>
-            <div class="paybox">
-              <div><strong>Pay Date:</strong> ${fmtLongDate(row.payDate)}</div>
-              <div><strong>Period Begin:</strong> ${fmtDate(row.periodBegin)}</div>
-              <div><strong>Period End:</strong> ${fmtDate(row.periodEnd)}</div>
-              <div class="net">${money(row.net)}</div>
+            <div class="summary-net">
+              <div class="label">Net Pay</div>
+              <div class="big">${money(row.net)}</div>
             </div>
           </div>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Earnings</th>
-                <th>Rate/Amt</th>
-                <th>Hours</th>
-                <th>YTD Hrs</th>
-                <th>Current</th>
-                <th>Year to Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td>REG</td><td>${num(25)}</td><td>${num(row.regHours)}</td><td>${num(row.ytdRegHours)}</td><td>${money(row.regPay)}</td><td>${money(row.ytdRegPay)}</td></tr>
-              <tr><td>OT</td><td>${num(37.5)}</td><td>${num(row.otHours)}</td><td>${num(row.ytdOtHours)}</td><td>${money(row.otPay)}</td><td>${money(row.ytdOtPay)}</td></tr>
-              <tr><td>CC TIPS</td><td>${money(row.tips)}</td><td>—</td><td>—</td><td>${money(row.tips)}</td><td>${money(row.ytdTips)}</td></tr>
-              <tr class="tot"><td>TOTAL</td><td></td><td>${num(row.totalHours)}</td><td>${num(row.ytdTotalHours)}</td><td>${money(row.gross)}</td><td>${money(row.ytdGross)}</td></tr>
-            </tbody>
-          </table>
-
-          <div style="display:grid;grid-template-columns:1.2fr .95fr;gap:20px;margin-top:16px;">
-            <div>
-              <table>
-                <thead>
-                  <tr><th>Employee Taxes</th><th>Current</th><th>Year to Date</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td>Federal Withholding</td><td>${money(row.fed)}</td><td>${money(row.ytdFed)}</td></tr>
-                  <tr><td>Employee Social Security</td><td>${money(row.ss)}</td><td>${money(row.ytdSs)}</td></tr>
-                  <tr><td>Employee Medicare</td><td>${money(row.med)}</td><td>${money(row.ytdMed)}</td></tr>
-                  <tr><td>CT Withholding</td><td>${money(row.ct)}</td><td>${money(row.ytdCt)}</td></tr>
-                  <tr><td>CT Paid Family Leave EE</td><td>${money(row.pfml)}</td><td>${money(row.ytdPfml)}</td></tr>
-                  <tr class="tot"><td>TOTAL</td><td>${money(row.taxes)}</td><td>${money(row.ytdTaxes)}</td></tr>
-                  <tr class="tot"><td>NET PAY</td><td>${money(row.net)}</td><td>${money(row.ytdNet)}</td></tr>
-                </tbody>
-              </table>
-            </div>
-            <div>
-              <table>
-                <thead>
-                  <tr><th>Account</th><th>Type</th><th>Amount</th></tr>
-                </thead>
-                <tbody>
-                  <tr><td></td><td></td><td></td></tr>
-                </tbody>
-              </table>
-              <div class="emptybox" style="margin-top:12px;"><strong>PAPER CHECK ISSUED - DIRECT DEPOSIT NOT ENROLLED</strong></div>
-            </div>
-          </div>
-
-          <div class="actions">
-            <button class="small-btn" onclick="printStub(${idx})">Print to View Full Stub Layout</button>
+          <div class="mini-grid">
+            <div class="mini-box"><div class="k">Gross Pay</div><div class="v">${money(row.gross)}</div></div>
+            <div class="mini-box"><div class="k">Taxes</div><div class="v">${money(row.taxes)}</div></div>
+            <div class="mini-box"><div class="k">Total Hours</div><div class="v">${num(row.totalHours)}</div></div>
+            <div class="mini-box"><div class="k">YTD Net</div><div class="v">${money(row.ytdNet)}</div></div>
           </div>
         </div>
+
+        <div class="subcard">
+          <div class="subcard-title">Pay Info</div>
+          <div class="kv-row"><div class="row-left"><div class="label">Employer</div><div>New Haven Pizza Truck</div></div></div>
+          <div class="kv-row"><div class="row-left"><div class="label">Employee</div><div>Christopher Bernardo</div></div></div>
+          <div class="kv-row"><div class="row-left"><div class="label">Period Begin</div></div><div class="value">${fmtDate(row.periodBegin)}</div></div>
+          <div class="kv-row"><div class="row-left"><div class="label">Period End</div></div><div class="value">${fmtDate(row.periodEnd)}</div></div>
+          <div class="kv-row"><div class="row-left"><div class="label">Pay Date</div></div><div class="value">${fmtDate(row.payDate)}</div></div>
+        </div>
+
+        <div class="subcard">
+          <div class="subcard-title">Earnings</div>
+          <div class="earn-row"><div class="row-left"><div class="label">REG</div><div class="tiny">${num(25)} / hr</div></div><div class="row-right"><div class="value">${num(row.regHours)} hrs</div><div class="tiny">${money(row.regPay)} current</div><div class="tiny">YTD ${money(row.ytdRegPay).replace('$','')}</div></div></div>
+          <div class="earn-row"><div class="row-left"><div class="label">OT</div><div class="tiny">${num(37.5)} / hr</div></div><div class="row-right"><div class="value">${num(row.otHours)} hrs</div><div class="tiny">${money(row.otPay)} current</div><div class="tiny">YTD ${money(row.ytdOtPay).replace('$','')}</div></div></div>
+          <div class="earn-row"><div class="row-left"><div class="label">CC Tips</div><div class="tiny">Tips</div></div><div class="row-right"><div class="value">${money(row.tips)}</div><div class="tiny">YTD ${money(row.ytdTips).replace('$','')}</div></div></div>
+          <div class="earn-row"><div class="row-left"><div class="label">Total</div><div class="tiny">YTD hours ${num(row.ytdTotalHours)}</div></div><div class="row-right"><div class="value">${money(row.gross)}</div><div class="tiny">${num(row.totalHours)} total hours</div></div></div>
+        </div>
+
+        <div class="subcard">
+          <div class="subcard-title">Employee Taxes</div>
+          <div class="tax-row"><div class="row-left"><div class="label">Federal Withholding</div></div><div class="row-right"><div class="value">${money(row.fed)}</div><div class="tiny">YTD ${money(row.ytdFed).replace('$','')}</div></div></div>
+          <div class="tax-row"><div class="row-left"><div class="label">Employee Social Security</div></div><div class="row-right"><div class="value">${money(row.ss)}</div><div class="tiny">YTD ${money(row.ytdSs).replace('$','')}</div></div></div>
+          <div class="tax-row"><div class="row-left"><div class="label">Employee Medicare</div></div><div class="row-right"><div class="value">${money(row.med)}</div><div class="tiny">YTD ${money(row.ytdMed).replace('$','')}</div></div></div>
+          <div class="tax-row"><div class="row-left"><div class="label">CT Withholding</div></div><div class="row-right"><div class="value">${money(row.ct)}</div><div class="tiny">YTD ${money(row.ytdCt).replace('$','')}</div></div></div>
+          <div class="tax-row"><div class="row-left"><div class="label">CT Paid Family Leave EE</div></div><div class="row-right"><div class="value">${money(row.pfml)}</div><div class="tiny">YTD ${money(row.ytdPfml).replace('$','')}</div></div></div>
+          <div class="tax-row"><div class="row-left"><div class="label">Total Taxes</div></div><div class="row-right"><div class="value">${money(row.taxes)}</div><div class="tiny">YTD ${money(row.ytdTaxes).replace('$','')}</div></div></div>
+        </div>
+
+        <div class="subcard">
+          <div class="subcard-title">Check Delivery</div>
+          <div class="notice"><strong>PAPER CHECK ISSUED - DIRECT DEPOSIT NOT ENROLLED</strong></div>
+        </div>
       `;
+
+      document.getElementById('printBtn').onclick = () => printStub(idx);
       window.scrollTo({top:0, behavior:'smooth'});
     }
 
@@ -282,7 +317,7 @@
           </div>
         </div>
 
-        <div style="height:24px;"></div>
+        <div style="height:20px;"></div>
 
         <div style="font-size:14px;line-height:1.25;">
           Christopher Bernardo<br>
@@ -341,9 +376,8 @@
       window.print();
     }
 
-    renderWeekButtons();
-    showSection('profile');
-    backToWeeks();
+    renderDateControls();
+    goHome();
   </script>
 </body>
 </html>
